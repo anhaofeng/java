@@ -1,0 +1,84 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<!-- 验证是否登录 -->
+<c:import url="yanzheng.jsp"></c:import>  
+<!-- 验证是否登录 -->
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+	<style>
+<!--
+	.wai{
+		width:800px;
+	
+	}
+-->
+</style>
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+
+
+	<div class="wai">
+			
+			<div class="panel panel-primary magin_center mydiv" >
+			<div class="panel-heading">修改公告</div>
+			<div class="panel-body">
+						
+						
+				<form action="getUpdataMes?method=updata" method="post">	
+					<table class="table table-hover">
+						<tr>
+							<td>公告标题</td>
+							<td>
+								<input class="form-control" type="text" name="mes_head" id="qes_head" value="${mes_all.mes_head }" placeholder="请输入公告标题" />
+							</td>
+						</tr>
+							
+							<tr>
+							<td>公告内容</td>
+							<td>
+								<textarea rows="5" cols="80" name="mes_content" maxlength="6" > ${mes_all.mes_content }</textarea>
+`						
+							</td>
+						</tr>
+						
+						<tr>
+							
+						</tr>
+						
+					</table>
+				</form>
+			</div>
+			</div>
+
+
+		</div>
+
+
+
+
+
+
+
+	
+									
+	
+	
+	
+
+
+
+
+
+
+</body>
+</html>

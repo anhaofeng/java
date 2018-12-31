@@ -1,0 +1,169 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+  <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<html>
+<head>
+<!-- 验证是否登录 -->
+<c:import url="yanzheng.jsp"></c:import>  
+<!-- 验证是否登录 -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>添加公告</title>
+
+		<script type="text/javascript" src="js/jquery-2.1.0.js" ></script>
+		<script src="js/base.js"></script>
+		<link href="css/bootstrap-3.3.4.css" rel="stylesheet">
+		<link href="css/base.css" rel="stylesheet">
+		<link href="css/cutter.css" rel="stylesheet">
+
+		<style>
+.wai {
+		width: 800px;
+		margin: 0px auto;
+		
+	}
+	.panel-heading h4{
+		font-weight: bold;
+	}
+	.nav1{
+		position:relative;
+		top:5px;
+		text-indent: 2em;
+		font-size: 14px;
+		color: gray;
+		font-weight: bold;
+	}
+	.buttons button{
+	
+		position: relative;
+		right: 150px;
+	}
+	#sub{
+		margin-right:40px;
+	}
+		@font-face {
+  				font-family: 'iconfont';
+  				src: url('fonts/iconfont.eot');
+  				src: url('fonts/iconfont.eot?#iefix') format('embedded-opentype'),
+  				url('fonts/iconfont.woff') format('woff'),
+  				url('fonts/iconfont.ttf') format('truetype'),
+  				url('fonts/iconfont.svg#iconfont') format('svg');
+			}
+		.error-tip{
+			font-size: 12px;
+			color: red;
+			font-family: 'iconfont';
+			display: inline-block;
+			border: 0px solid red;
+			width: 300px;
+			position: relative;
+			top: -3px;
+		}
+		</style>
+
+</head>
+<body>
+
+			<div class="wai">
+				<form action="doAddMes" method="post" id="">
+						<div class="panel panel-primary magin_center mydiv" >
+						<div class="panel-heading"><h4>添加公告</h4></div>
+						<div class="panel-body">
+							<table class="table table-hover">
+						<tr>
+							<td class="nav1">公告标题</td>
+							<td>
+								<input type="text" name="mes_head" id="qes_head" value="${mes_all.mes_head }" placeholder="请输入公告标题" />
+								<span class="error-tip"></span>
+							</td>
+						</tr>
+							<tr>
+							<td class="nav1">公告内容</td>
+							<td>
+								<textarea rows="5" cols="30" name="mes_content" id="mes_content"> ${mes_all.mes_content }</textarea>
+								<span class="error-tip"></span>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2"  class="buttons">
+								<div  align="center">
+								<button type="submit" class="btn btn-primary" id="sub" disabled> 添 加 </button>
+								<button type="reset" class="btn btn-warning"> 重 置 </button>
+								</div>
+							</td>
+						</tr>
+					</table>
+						</div>
+				</div>
+				</form>
+</div>
+
+</body>
+<script type="text/javascript" ></script>
+	<script type="text/javascript">
+		var qh = false;
+		var qb = false;
+//-------------------------------公告标题------------------------------------
+		var uname = document.getElementById("qes_head");
+		var qes_head_uname = document.getElementById("qes_head");
+		//获取焦点
+		uname.onfocus=function(){
+			qes_head_uname.className="box active";
+		}
+		//移除焦点
+		var span = qes_head_uname.nextElementSibling;
+		uname.onkeyup=function(){
+			qes_head_uname.className="box";
+			var reg_1 = /^\s*$/g;
+			if(uname.value=="" || reg_1.test(uname.value)){
+				span.style.color='red';
+				span.innerHTML="&#xe655; 标题不能为空！";
+				$("#sub").attr("disabled","true");
+				qh = false;
+
+			}else{
+				span.style.color='green';
+				span.innerHTML="&#xe6bb; 标题可用";
+				//$("#sub").removeAttr("disabled");
+				qh = true;
+				myblock ();
+
+			}
+		}
+	
+//-------------------------------------公告内容-----------------------------
+		var unamet = document.getElementById("mes_content");
+		var qes_head_unamet = document.getElementById("mes_content");
+		//获取焦点
+		unamet.onfocus=function(){
+			qes_head_unamet.className="box active";
+		}
+		//移除焦点
+		var spant = qes_head_unamet.nextElementSibling;
+		unamet.onkeyup=function(){
+			qes_head_unamet.className="box";
+			var reg_2 = /^\s*$/g;
+			if(unamet.value=="" || reg_2.test(unamet.value)){
+				spant.style.color='red';
+				spant.innerHTML="&#xe655; 内容不能为空！";
+				$("#sub").attr("disabled","true");
+				qb = false;
+
+			}else{
+				spant.style.color='green';
+				spant.innerHTML="&#xe6bb;";
+				//$("#sub").removeAttr("disabled");
+				qb = true;
+				myblock ();
+
+			}
+		}
+		
+			function myblock () {
+			if(qh==true&&qb==true){
+				$("#sub").removeAttr("disabled");
+			}
+		}
+	</script>
+
+</html>

@@ -1,0 +1,117 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+     <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+ <!-- 验证是否登录 -->
+<c:import url="yanzheng.jsp"></c:import>  
+<!-- 验证是否登录 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+		 <script type="text/javascript" src="js/jquery-2.1.0.js" ></script>
+			<script type="text/javascript">
+		function form_sub(){
+		document.getElementById("myform").submit();
+		return 1;
+	}
+	</script>
+	</head>
+	<body>
+	
+			<form action="doQesUpdate" id="myform" class="form-horizontal">
+    <h5 class="page-header alert-info" style="padding:10px; margin:0px; margin-bottom:5px;">基本信息</h5>
+	<div class="row">
+    	<div class="col-sm-5">
+        	<div class="form-group">
+            	<label class="col-sm-3 control-label">编号</label>
+                <div class="col-sm-9">
+                	<input type="text" name="qes_id" value="${qes.qes.qes_id }"class="form-control input-sm" placeholder="请输入编号"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="form-group">
+            	<label class="col-sm-3 control-label">类型</label>
+                <div class="col-sm-9">
+                	<input  type="hidden" name="sub_id" value="${qes.dic_qes.qes_subid }" >
+                	<input type="text" name="sub"  value="${qes.dic_qes.qes_subname }"class="form-control input-sm" placeholder="请输入姓名"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    	<!--开始 -->
+    	<div class="row">
+    	
+    	<div class="col-sm-5">
+            <div class="form-group">
+            	<label class="col-sm-3 control-label">题干</label>
+            	
+                <div class="col-sm-9">
+                	<input type="text" name="head" value="${qes.qes.qes_head }" class="form-control input-sm" placeholder="请输入年龄"/>
+                </div>
+            </div>
+        </div>
+    	<div class="col-sm-5">
+        	<div class="form-group">
+            	<label class="col-sm-3 control-label">答案</label>
+                <div class="col-sm-4">
+                
+                	<select  name="answer" class="form-control input-sm" >
+                    	<option>请选择</option>
+                        <option ${qes.qes.qes_answer eq 'A' ? 'selected': '' } >A</option>
+                        <option ${qes.qes.qes_answer eq 'B' ? 'selected' : ''} >B</option>
+                        <option ${qes.qes.qes_answer eq 'C' ? 'selected' : ''} >C</option>
+                        <option ${qes.qes.qes_answer eq 'D' ? 'selected' : ''} >D</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+   </br>
+   <!--结束 -->
+       	<!--开始 -->
+    	<div class="row">
+    	<div class="col-sm-5">
+        	<div class="form-group">
+            	<label class="col-sm-3 control-label">A选项</label>
+                <div class="col-sm-9">
+                	<input type="text" name="optionA" value="${qes.qes.qes_optionA }"class="form-control input-sm" placeholder="请输入手机号码"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="form-group">
+            	<label class="col-sm-3 control-label">B选项</label>
+                <div class="col-sm-9">
+                	<input type="text" name="optionB" value="${qes.qes.qes_optionB  }"class="form-control input-sm" placeholder="请输入电子邮件"/>
+                </div>
+            </div>
+        </div>
+    </div>
+   <!--结束 -->
+    <!--开始 -->
+    	<div class="row">
+    	<div class="col-sm-5">
+        	<div class="form-group">
+            	<label class="col-sm-3 control-label">C选项</label>
+                <div class="col-sm-9">
+                	<input type="text" name="optionC" value="${qes.qes.qes_optionC }"class="form-control input-sm" placeholder="请输入身份证"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="form-group">
+            	<label class="col-sm-3 control-label">D选项</label>
+                <div class="col-sm-9">
+                	<input type="text" name="optionD"value="${qes.qes.qes_optionD }" class="form-control input-sm" placeholder="请输入家庭地址"/>
+                </div>
+            </div>
+        </div>	
+    </div>
+</form>
+	</body>
+</html>

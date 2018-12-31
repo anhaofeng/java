@@ -1,0 +1,114 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+  <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+   <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+ <!-- 验证是否登录 -->
+<c:import url="yanzheng.jsp"></c:import>  
+<!-- 验证是否登录 -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="description" content="">
+<link href="css/bootstrap-3.3.4.css" rel="stylesheet">
+<script type="text/javascript" src="js/jquery-2.1.0.js" ></script>
+<script type="text/javascript" src="js/bootstrap.js" ></script>
+
+<title>Insert title here</title>
+<style type="text/css">
+	.wai{
+			width:1000px;
+			margin:0px auto;
+		}
+	table tr td,table tr th{
+			border:1px solid #DDDDDD;
+	}
+	table tr th span{
+		margin-left: 150px;
+	}
+	
+	.buttons1{
+		margin-left:100px;
+		margin-right: 40px;
+	}
+</style>
+</head>
+<body>
+
+	<div class="wai">
+		<table border="" cellspacing="" cellpadding="" class="table  table-hover">
+									<tr>
+										<th>科目ID</th>
+										<th>科目名字</th>
+										<th><span>操  作</span></th>
+									</tr>
+								<c:forEach items="${list_sub }" var="s">
+									<tr>
+										
+										<td>	
+											${s.qes_subid }											</td>
+										<td>	${s.qes_subname }  	</td>
+										
+										
+										<td>
+										
+											 <span class="buttons1"><button  type="button" class="btn btn-danger" value="delete"  data-id="${s.qes_subid }">删除</button>	</span>
+											  <button  type="button" class="btn btn-primary" value="updata"  data-id="${s.qes_subid }">修改</button>	
+											 	
+										</td>
+										
+										
+										
+									</tr>
+								
+								</c:forEach>
+								
+									</table>
+		
+	</div>
+
+</body>
+
+
+<script type="text/javascript">
+
+	$(function(){
+		
+		$("button[value=delete]").click(function(){
+			var a= confirm("是否删除");
+			var id = $(this).attr("data-id");
+			
+			if(a){
+			var id = $(this).attr("data-id");
+			location="doSubject?method=delete&id="+id;
+			
+			}
+		})
+		
+		
+		
+		$("button[value=updata]").click(function(){
+		
+		
+			
+			var id = $(this).attr("data-id");
+			
+			location="doSubject?method=updata&id="+id;
+			
+			
+		})
+		
+		
+		
+	})
+	
+	
+
+
+
+</script>
+
+
+
+</html>

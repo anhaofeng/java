@@ -1,0 +1,103 @@
+
+
+/*整站*/
+html{zoom:1;}html *{outline:0;zoom:1;} html button::-moz-focus-inner{border-color:transparent!important;} 
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {padding:0;margin:0;}
+body  {font: .70em/1.5em  Verdana, Tahoma, Helvetica, sans-serif;; word-wrap:break-word; word-break:break-all; color: rgb(138, 8
+0, 72);}
+li{list-style:none; list-style-position:inside;}
+a{outline:none; text-decoration:none; color:#f67e20;} a:hover{ text-decoration:underline; color:#24459a;}
+/*t头部*/
+.top{ background:url(../img/top_side.gif) ;height:60px;width:100%;min-width:1000px;}
+.logo{width:357px; height:60px; background:url(../img/logo.gif); float:left; margin-left:32px;}
+.top_menu{text-align:right;float:right;padding:5px 10px;color:#666;}
+.top_menu a{margin: 0 4px;border-left:2px solid blue;color:#5e5d5c;padding-left:5px;font-size:14px ; font-family:"Arial","Microsoft YaHei","黑体","宋体",sans-serif}
+.menu{ height:auto;width:100%;border-bottom:3px solid blue}
+.header_menu_nav{min-width:800px;margin-left:200px;margin-right:20px;margin-bottom:10px;;height:10px;margin-top:20px;line-height:16px}
+.header_menu_nav li {line-height:20px;float:left;margin-left:14px}
+.header_menu_nav li a{ padding: 5px 20px 5px 20px;;font-size:15px;line-height:20px;font-weight:bold;color:#5e5d5c;font-family:"Arial","Microsoft YaHei","黑体","宋体",sans-serif;list-style: none;}
+@media only screen and (orientation:portrait){.header_menu_nav li a{font-size:15.5px;line-height:20px;font-weight:bold;color:#5e5d5c;font-family:"Arial","Microsoft YaHei","黑体","宋体",sans-serif}}
+@media only screen and (orientation:landscape){.header_menu_nav li a{font-size:15.5px;line-height:20px;font-weight:bold;color:#5e5d5c;font-family:"Arial","Microsoft YaHei","黑体","宋体",sans-serif}}
+.header_menu_nav li a:hover,.header_menu_nav li a.on{text-decoration: none;text-align:center;-moz-border-radius: 5px;-khtml-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 9px 9px 0px 0px; padding: 5px 20px 5px 20px;color:#fa7a20;background-color:blue;color:#fff;}
+.header_hoverOn .header_menu_top_list span.item2{color:#fa7a20}
+.header_menu_nav li a span{margin-left:15px;margin-right:15px; height:30px !important;display:inline-block }
+.right_font{padding-top:10px;height:28px; background-image:url(../img/main_10.gif) ; background-repeat:repeat-x;}
+.actives{width:175px;color:#f60}
+.header_menu_nav li.m2 
+.header_menu_nav_miphone a:last-child{border:0}
+.header_menu_nav_miphone span{display:block;margin:0 0 0 41px;background-position:-355px -67px;_background-position:-355px -64px;width:24px;height:14px}
+/*侧栏菜单*/
+.sidebar_panel{height:400px;border-right:1px solid #EC6117;border-bottom:1px solid #EC6117;background-color:#FAF9F8;}
+.sidebar_title{background-image: url(../img/slidebar.png);height:38px;}
+.show{"display:block"}
+.hide{"display:none"}
+.bs-docs-sidenav {
+
+  margin: 0px 0 0;
+  padding: 0;
+  background-color: #fff;
+  
+}
+.bs-docs-sidenav > li > a {
+line-height: 35px;
+  display: block;
+  width: 190px \9;
+  margin: 0 0 0px;
+  /*padding: 8px 8px !important;*/
+   border-bottom:1px solid #e5e5e5 !important;
+
+    border-right:1px solid blue !important;
+    border-left:1px solid #e5e5e5 !important;
+}
+.bs-docs-sidenav > li:first-child > a {
+ 
+}
+.bs-docs-sidenav > li:last-child > a {
+ 
+}
+.bs-docs-sidenav > .active > a {
+  position: relative;
+  z-index: 2;
+  padding: 9px 15px
+  border: 0;
+  
+}
+/* Chevrons */
+.bs-docs-sidenav .icon-chevron-right {
+  float: right;
+  margin-top: 2px;
+  margin-right: -6px;
+  opacity: .25;
+}
+.bs-docs-sidenav > li > a:hover {
+  background-color: #f5f5f5;
+}
+.bs-docs-sidenav a:hover .icon-chevron-right {
+  opacity: .5;
+}
+.bs-docs-sidenav .active .icon-chevron-right,
+.bs-docs-sidenav .active a:hover .icon-chevron-right {
+  background-image: url(../img/glyphicons-halflings-white.png);
+  opacity: 1;
+}
+.bs-docs-sidenav.affix {
+  top: 40px;
+}
+.bs-docs-sidenav.affix-bottom {
+  position: absolute;
+  top: auto;
+  bottom: 270px;
+}
+
+
+.mt30 {margin-top:30px;}
+.mt20 {margin-top:30px;}
+.top{ background:url(img/top_side.gif) ;height:60px;width:100%;min-width:1000px;}
+.logo{width:357px; height:60px; background:url(../img/logo.gif); float:left; margin-left:32px;}
+
+.bottomer{margin-bottom:0px;}
+  
+
+.r{float:right;}
+.show{"display:block"}
+.hide{"display:none"}

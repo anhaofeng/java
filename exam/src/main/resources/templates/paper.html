@@ -1,0 +1,98 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+  <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="description" content="">
+<link href="css/bootstrap-3.3.4.css" rel="stylesheet">
+<script type="text/javascript" src="js/jquery-2.1.0.js" ></script>
+<script type="text/javascript" src="js/bootstrap.js" ></script>
+<!-- 验证是否登录 -->
+<c:import url="yanzheng.jsp"></c:import>  
+<!-- 验证是否登录 -->
+<title>Insert title here</title>
+<style type="text/css">
+	.wai{
+			width:1000px;
+			margin:0px auto;
+		}
+	table tr td,table tr th{
+			border:1px solid #DDDDDD;
+	}
+	#deletes{
+		margin-left: 60px;
+	}
+</style>
+</head>
+<body>
+
+	<div class="wai">
+		<table border="" cellspacing="" cellpadding="" class="table  table-hover">
+									<tr>
+										<th>第几张</th>
+										<th>卷子科目</th>
+										<th>操  作</th>
+									</tr>
+								<c:forEach items="${list_paper }" var="p">
+									<tr>
+										
+										<td>	
+											<a  href="doPaper?method=updata&tp_paper=${p.tp_paper }" data-toggle="modal" id="paperInfo"  data-id="${p.tp_paper }"> 第${p.tp_paper }张试卷  </a>
+											</td>
+										<td>	${p.dic_subname.qes_subname }  	</td>
+										
+										
+										<td>
+										
+											 <button type="button" class="btn btn-danger" id="deletes" value="delete"  data-id="${p.tp_paper }">删除</button>	
+											 	
+										</td>
+										
+										
+										
+									</tr>
+								
+								</c:forEach>
+								
+									</table>
+
+		
+	</div>
+
+</body>
+
+
+<script type="text/javascript">
+
+	$(function(){
+		
+		$("button[value=delete]").click(function(){
+			var a= confirm("是否删除");
+			if(a){
+			
+			var id = $(this).attr("data-id");
+			location="doPaper?method=delete&tp_paper="+id;
+			
+			}
+		})
+		
+		
+		
+		
+		
+		
+		
+	})
+	
+	
+
+
+
+</script>
+
+
+
+</html>

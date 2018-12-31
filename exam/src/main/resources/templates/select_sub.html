@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script th:src="@{/js/jquery-2.1.0.js}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $ (function () {
+            $("#sub").change(function () {
+                var sub=$(this).children('option:selected').text();
+                window.location="subQesList?sub="+sub;
+            })
+        })
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+    <style type="text/css">
+        body{
+            background-image: url("img/xingkong.jpg");
+        }
+        .addExam{
+            position: relative;
+            left: 600px;
+            top:350px;
+        }
+        .addExam select{
+            width:300px;
+            height:30px;
+        }
+        #sub{
+            border: 1px solid black;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="addExam" >
+    <select  id="sub">
+        <option >请选择科目</option>
+        <option th:each="sub : ${subs}"
+                th:value="${sub.qes_subid}"
+                th:text="${sub.qes_subname}"> </option>
+    </select>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+     <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+ <!-- 验证是否登录 -->
+<c:import url="yanzheng.jsp"></c:import>  
+<!-- 验证是否登录 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>查询</title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+<script src="js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+ <script src="js/echarts.js"></script>
+</head>
+<body>
+	<div class="" style="width: 80%">
+		<div class="row clearfix">
+			<div class="">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+									学生成绩
+						</h3>
+					</div>	
+					<div class="panel-body">
+						<div class="container">
+								<table class="table table-striped">
+									<tr>
+										
+										<th>学生id</th>
+										<th>分数</th>
+										<th>试卷</th>
+										<th>第几次考试</th>
+										
+										
+									</tr>
+									<c:forEach items="${grade_list}" var="grade">
+										<tr>
+										<td id="sid" data-id="${grade.grd_stuid }">${grade.grd_stuid }</td>
+										<td id="point">${grade.grd_point }</td>
+										<td>第${grade.qes_paper}张试卷</td>
+										<td id="sub">${grade.grd_seq }</td>
+										
+									</tr>
+									
+									</c:forEach>
+								</table>
+									
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	 <div id="main" style="width: 600px;height:400px; border:0px solid red"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var sid= $("#sid").attr("data-id");
+        var arr=[];
+        var aaa=[];
+        function sss() {
+        	$.post("Ajax_zhexian",{id:sid},function(data){
+        		if(data!=""){
+        			 aa=$.parseJSON(data);
+        			console.log(aa);
+        			for (var int1 = 0; int1 < aa.length; int1++) {
+						arr.push(aa[int1].grd_point);
+						aaa.push("第"+aa[int1].grd_seq+"次考试");
+					}
+        			console.log(aaa+"aaa");
+        			fun()
+        		}	
+		
+        		
+        })
+        }
+        sss();
+       function fun() {
+    	   var myChart = echarts.init(document.getElementById('main'));
+           
+
+           var option = {
+           		title: {
+                       text: '学生成绩'
+                   },
+           	color: ['#3398DB'],
+               tooltip : {
+                   trigger: 'axis',
+                   axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                       type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                   }
+               },
+               grid: {
+                   left: '3%',
+                   right: '4%',
+                   bottom: '3%',
+                   containLabel: true
+               },
+               xAxis : [
+                   {
+                       type : 'category',
+                       data :aaa,
+                       axisTick: {
+                           alignWithLabel: true
+                       }
+                   }
+               ],
+               yAxis : [
+                   {
+                       type : 'value'
+                   }
+               ],
+               series : [
+                   {
+                       name:'分数',
+                       type:'bar',
+                       barWidth: '60%',
+                       data:arr
+                   }	
+               ]
+           };
+
+           // 使用刚指定的配置项和数据显示图表。
+           myChart.setOption(option);
+	}
+        
+
+    </script>
+</body>
+
+<script type="text/javascript">
+$(function () {
+	$("button[title=exit]").click(function(){
+		var id=$(this).attr("data-id");
+		location="getStudentAll";
+	
+	});
+	
+	
+})
+
+</script>
+
+</html>
+

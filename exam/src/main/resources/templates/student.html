@@ -1,0 +1,171 @@
+
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+     <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+ <!-- 验证是否登录 -->
+<c:import url="yanzheng.jsp"></c:import>  
+<!-- 验证是否登录 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>查询</title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap-3.3.4.css"/>
+<script src="js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+	.fenyes{
+		position: relative;
+		left:300px;
+	}
+	#deletes{
+		margin-right: 30px;
+	}
+</style>
+</head>
+<body>
+	
+	<div class="">
+		<div class="row clearfix">
+			<div class="">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+									学生信息
+						</h3>
+					</div>	
+			<div class="panel-body">
+				<div class="container">
+					
+					<div style="margin-bottom:20px ">
+
+						<table >
+							<tr>
+								<td>学号:</td>
+								<td>
+									<form id="myform" action="getStudentById" method="post"  class="form-inline">
+										 <div class="form-group">
+											<input type="text" name="id" class="form-control" value="" placeholder="请输入···" />
+											</div>
+											<div class="form-group">
+											<input type="submit" class="btn btn-primary" id="" data-id="${stu.s_id }" value="查询" />
+										</div>
+								</form>
+								</td>
+								<td style="padding-left:20px ">姓名:</td>
+								<td>
+									<form id="myform" action="getStudentByName" method="get"  class="form-inline">
+										 <div class="form-group">
+										<input type="text" name="name" class="form-control" value="" placeholder="请输入···" />
+										</div>
+										<div class="form-group">
+										<input type="submit" class="btn btn-warning" data-id="${stu.s_id }" value="查询" />
+										</div>
+									</form>
+								</td>
+							</tr>
+						
+						</table>
+						
+					</div>
+					
+					<div class="">	
+						<table class="table table-striped">
+							<tr>
+								<th>学号</th>
+								<th>姓名</th>
+								<th>用户名</th>
+								<th>角色</th>
+								<th>成绩</th>
+								<th>性别</th>
+								
+								<th>是否可用</th>
+								<th>操作</th>
+								
+							</tr>
+							<c:forEach items="${stu_list}" var="stu">
+								<tr>
+								<td >	
+									<input type="hidden" name="paper" id="paper" value="${grade.qes_paper }" />
+									${stu.s_id }
+								</td>
+								<td>${stu.s_name }</td>
+								<td>${stu.s_uname }</td>
+								<td>${stu.role.res_name}</td>
+								
+								<td>
+									<a href="#"  title="grade" data-id="${stu.s_id}">分数</a>
+								</td>
+								<td>${stu.s_gender==1 ? "男" : " 女" }</td>
+								
+								<td>${stu.s_state }</td>
+								<td>
+								<button type="button"  class="btn btn-danger" id="deletes"  title="delete" data-id="${stu.s_id }" >删除</button>
+								<button type="button" class="btn btn-primary" title="update" data-id="${stu.s_id }" >修改</button>
+								</td>
+							</tr>
+							
+							</c:forEach>
+							
+						</table>
+						<div class="fenyes">
+							<ul class="pagination">
+									<li class="">
+										<a href="getStudentAll?index=1" data-index="${pageIndex }">首页</a>
+									</li>
+									<li>
+										<a href="getStudentAll?index=${pageIndex<=1 ? 1 : pageIndex-1}" data-index="${pageIndex }">上一页</a>
+									</li>
+									<li>
+										<a href="getStudentAll?index=${pageIndex>=pageCount ? pageCount : pageIndex+1}" data-index="${pageIndex }" data-pagecount="${pageCount }">下一页</a>
+									</li>
+									<li>
+										<a href="getStudentAll?index=${pageCount }" data-index="${pageIndex }" data-pagecount="${pageCount }" >尾页</a>
+									</li>
+									<li>
+										<a href="#">共 ${rowCount } 行 / 共${pageCount }页 / 第${pageIndex }页</a>
+									</li>
+								</ul>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+</div>
+</div>
+
+
+	
+</body>
+<script type="text/javascript">
+$(function () {
+	$("button[title=delete]").click(function(){
+		
+				if(confirm("确定删除吗")){
+					var id=$(this).attr("data-id");
+				<!--	alert(id);-->
+					location="doStudentDelete?id="+id;
+				}
+				
+			});
+		$("button[title=update]").click(function(){
+			var id=$(this).attr("data-id");
+			location="doStudentById?id="+id;
+	
+		});
+		$("a[title=grade]").click(function(){
+			var id=$(this).attr("data-id");
+			location="doStudentGrade?id="+id;
+		});
+		
+		
+		
+		
+})
+
+
+</script>
+
+</html>
+

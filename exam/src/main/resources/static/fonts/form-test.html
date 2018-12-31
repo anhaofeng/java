@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript">
+			function form_submit(){
+				//获取表单中元素，对元素的值进行判断
+				var uname = document.getElementById("uname");
+				var email = document.getElementById("email");
+//				for (var i=1;i<email.value.length;i++) {
+//					if(email.value[i] !=='@'){
+//					alert("email地址应包含"@"和".""!)	
+//					return false;	
+//					}	
+//				}
+
+				if(email.value.indexOf("@")==-1 || email.value.indexOf(".")==-1){
+					alert("email地址应包含"@"和".""!)
+					return false;
+				}
+
+
+				//判断是否为空
+				if(uname.value==""){
+					alert("用户名不允许为空！");
+					return false;
+				}
+				for (var i=1;i<uname.value.length;i++) {
+					if(uname.value[i]>=0){
+						alert("用户名不能有数字！")
+						return false;
+					}
+				}
+//				//判断长度
+//				if(uname.value.length<3 || uname.value.length>6){
+//					alert("用户名应为3~6位!");
+//					return false;
+//				}
+				return true;
+			}
+			
+		</script>
+	</head>
+	<body>
+		<form action="http://www.baidu.com" method="get" onsubmit="return form_submit()">
+			您的Email:<input type="text" name="email" id="email" value=""/><br />
+			输入密码:<input type="password" name="password" id="password" value=""/><br />
+			再输入一次密码:<input type="password" name="password" id="password-next" value=""/><br />
+			您的名字:<input type="text" name="nname" value="a" id="uname"/><br />
+			<input type="submit" value="提交" />
+		</form>
+	</body>
+</html>

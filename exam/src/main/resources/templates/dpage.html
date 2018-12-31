@@ -1,0 +1,349 @@
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+     <link rel="stylesheet" type="text/css" href="css/bootstrap-3.3.4.css"/>
+ <script type="text/javascript" src="js/jquery-2.1.0.js" ></script>
+		<script type="text/javascript" src="js/bootstrap.js" ></script>
+ <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
+<!-- 验证是否登录 -->
+<c:import url="yanzheng.jsp"></c:import>  
+<!-- 验证是否登录 -->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.wai{
+				width:1000px;
+				position:relative;
+				left:112px;
+			}
+			.fenye ul{
+				position:relative;
+				left:300px;
+			}
+		#container{
+			border: 0px solid red;
+			position: relative;
+			left:112px;
+			width:1000px;
+		}
+		
+
+
+#kw {
+border: 1px solid #DDDDDD;
+width: 288px;
+height: 30px;
+font-size: 16px;
+padding: 0 5px;
+line-height: 30px;
+position: relative;
+top: 22px;
+}
+#chaxuns{
+	position: relative;
+	left:330px;
+	bottom: 10px;
+}
+.item {
+padding: 3px 5px;
+cursor: pointer;
+}
+.addbg {
+background: #87A900;
+}
+.first {
+border: solid #87A900 0px;
+width: 300px;
+
+}
+#append {
+border: solid #DDDDDD 2px;
+border-top: 0;
+display: none;
+}
+</style>
+	</head>
+	<body>
+	
+<div id="container">
+<div id="content">
+<div class="first">
+<input id="kw"  />
+<div class="form-group" id="chaxuns">
+		<input type="button" class="btn btn-primary" value="查询" id="qesSearch" />
+		</div>
+</div>
+<div id="append"></div>
+</div>
+</div>	
+	
+		<div class="wai">
+			<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th>
+									编号
+								</th>
+								<th>
+									类型
+								</th>
+								<th>
+									题干
+								</th>
+								<th>
+									A选项
+								</th>
+								<th>
+									B选项
+								</th>
+								<th>
+									C选项
+								</th>
+								
+								<th>
+									D选项
+								</th>
+								<th>
+									答案
+								</th>
+								<th>
+									删除
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${QesList}" var ="q" >
+	<tr>
+								<td>
+									${q.qes_id}
+								</td>
+								<td>
+									${q.dic_sub.qes_subname}
+								</td>
+								<td>
+									<a href="#" data-toggle="modal" id="show_modal" data-id ="${q.qes_id }"data-target="#myModal">${q.qes_head}</a>
+								</td>
+								<td>
+									${q.qes_optionA}
+								</td>
+								<td>
+									${q.qes_optionB}
+								</td>
+								<td>
+									${q.qes_optionC}
+								</td>
+								<td>
+									${q.qes_optionD}
+								</td>
+								
+								<td>
+									${q.qes_answer}
+								</td>
+								<td><input type="button" class="btn btn-danger" onclick="del()"id="delete" data-id ="${q.qes_id }" value="删除" ></td>
+								
+							</tr></c:forEach>
+							
+						</tbody>
+					</table>
+					<div class="fenye">
+						<ul class="pagination">
+						<li>
+							<a href="QuestionAll?index=1"  data-index="${pageIndex }">首页</a>
+						</li>
+						<li>
+							<a href="QuestionAll?index=${pageIndex<=1? 1 :pageIndex-1} " data-index="${pageIndex}">上一页</a>
+						</li>
+						
+						<li>
+							<a href="QuestionAll?index=${pageIndex>=pageCount?  pageCount:pageIndex+1}" data-pagecount=${ pageCount} data-index="${pageIndex}">下一页</a>
+						</li>
+						<li>
+							<a href="QuestionAll?index=${pageCount}" data-pagecount=${ pageCount} data-index="${pageIndex}">尾页</a>
+						</li>
+						<li>
+							<a href="#">共:${rowCount}行/共:${pageCount}页/第${pageIndex}页</a>
+						</li>
+					</ul>
+					</div>
+		</div>
+
+		
+		
+		<!-- 模式化 -->
+		<!-- Modal -->
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">试题详情</h4>
+		      </div>
+		      <div class="modal-body">
+		       <iframe src="showqes_page.jsp" frameborder="0" width="100%" id="frame_test" height=620px scrolling="no" ></iframe>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		        <button type="button" class="btn btn-primary" id="save">保存</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<script type="text/javascript">
+var json_data;
+var data=[];
+	$("#kw").keyup(function(){
+		//------------------------------------------------------
+		
+		$(document).keydown(function(e) {
+			
+			e = e || window.event;
+			var keycode = e.which ? e.which : e.keyCode;
+			if (keycode == 38) {
+			if (jQuery.trim($("#append").html()) == "") {
+			return;
+			}
+			movePrev();
+			} else if (keycode == 40) {
+			if (jQuery.trim($("#append").html()) == "") {
+			return;
+			}
+			$("#kw").blur();
+			if ($(".item").hasClass("addbg")) {
+			moveNext();
+			} else {
+			$(".item").removeClass('addbg').eq(0).addClass('addbg');
+			}
+			} else if (keycode == 13) {
+			dojob();
+			}
+			});
+		
+		//-----------------------------------------------------------
+		var val=$("#kw").val();
+		
+		$.post("ajax_serch",{"val":val},function(dat){
+		
+			
+			console.log(dat)
+			json_data = eval("("+dat+")");
+			
+		
+			for(var i=0;i<json_data.length;i++){
+				console.log(json_data[i].qes_head);
+					data[data.length]=json_data[i].qes_head;
+				}
+					console.log(data);
+				
+				getContent("#kw");
+				data.splice(0,data.length);
+			})
+	});
+$(document).ready(function() {
+var movePrev = function() {
+$("#kw").blur();
+var index = $(".addbg").prevAll().length;
+if (index == 0) {
+$(".item").removeClass('addbg').eq($(".item").length - 1).addClass('addbg');
+} else {
+$(".item").removeClass('addbg').eq(index - 1).addClass('addbg');
+}
+}
+var moveNext = function() {
+var index = $(".addbg").prevAll().length;
+if (index == $(".item").length - 1) {
+$(".item").removeClass('addbg').eq(0).addClass('addbg');
+} else {
+$(".item").removeClass('addbg').eq(index + 1).addClass('addbg');
+}
+}
+var dojob = function() {
+$("#kw").blur();
+var value = $(".addbg").text();
+$("#kw").val(value);
+$("#append").hide().html("");
+}
+});
+
+function getContent(obj) {
+var kw = jQuery.trim($(obj).val());
+if (kw == "") {
+$("#append").hide().html("");
+return false;
+}
+var html = "";
+for (var i = 0; i < data.length; i++) {
+if (data[i].indexOf(kw) >= 0) {
+html = html + "<div class='item' onmouseenter='getFocus(this)' onClick='getCon(this);'>" + data[i] + "</div>"
+}
+}
+if (html != "") {
+$("#append").show().html(html);
+} else {
+$("#append").hide().html("");
+}
+}
+
+function getFocus(obj) {
+$(".item").removeClass("addbg");
+$(obj).addClass("addbg");
+}
+
+function getCon(obj) {
+var value = $(obj).text();
+$("#kw").val(value);
+$("#append").hide().html("");
+}
+</script>
+	
+		
+		
+	</body>
+	<script type="text/javascript">
+	 	function del() {
+			var a= confirm("确定删除吗")
+			if(a){
+				var id = $("#delete").attr("data-id");
+				location="QuestionInfo?method=delete&sid="+id;
+		   
+			}
+		}
+	$(function () {
+		$("#qesSearch").click(function () {
+			var a=$("#kw").val();
+			location="qesSearch?a="+a;
+		})
+		$(".pagination a:lt(2)").click(function () {
+			if($(this).attr("data-index")==1){
+				$(this).attr("href","#");
+				$(this).parent().addClass("disabled");
+			}
+		})
+		
+		$(".pagination a:eq(2),.pagination a:eq(3)").click(function () {
+			if($(this).attr("data-index")==$(this).attr("data-pagecount")){
+				$(this).attr("href","#");
+				$(this).parent().addClass("disabled");
+			}
+		})
+		$("a[id=show_modal]").click(function(){
+			var id = $(this).attr("data-id");
+			$("#frame_test").attr("src","QuestionInfo?method=byId&sid="+id);
+			$("#myModal").modl("show");
+		})
+			
+		$("#save").click(function(){
+			//调用子页面方法
+			
+			var num =document.getElementById("frame_test").contentWindow.form_sub();
+			if(num ==1){
+				$("#myModal").modal("hide");
+			}
+		})
+
+	})
+	
+	</script>
+</html>

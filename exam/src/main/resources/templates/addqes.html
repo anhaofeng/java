@@ -1,0 +1,363 @@
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <!-- 验证是否登录 -->
+<c:import url="yanzheng.jsp"></c:import>  
+<!-- 验证是否登录 -->
+<!DOCTYPE html>
+<html>
+	<head>
+	
+		<meta charset="utf-8">
+		<title>添加试题</title>
+
+		<meta name="description" content="">
+		
+		<script type="text/javascript" src="js/jquery-2.1.0.js" ></script>
+		<script src="js/base.js"></script>
+		<link href="css/bootstrap-3.3.4.css" rel="stylesheet">
+		<link href="css/base.css" rel="stylesheet">
+		<link href="css/cutter.css" rel="stylesheet">
+
+		<style type="text/css">
+
+	.wai {
+		width: 800px;
+		margin: 0px auto;
+		
+	}
+	.panel-heading h4{
+		font-weight: bold;
+	}
+	.nav1{
+		position:relative;
+		top:5px;
+		text-indent: 2em;
+		font-size: 14px;
+		color: gray;
+		font-weight: bold;
+	}
+	.buttons button{
+	
+		position: relative;
+		left: 100px;
+	}
+	#sub{
+		margin-right:40px;
+	}
+					
+		@font-face {
+  				font-family: 'iconfont';
+  				src: url('fonts/iconfont.eot');
+  				src: url('fonts/iconfont.eot?#iefix') format('embedded-opentype'),
+  				url('fonts/iconfont.woff') format('woff'),
+  				url('fonts/iconfont.ttf') format('truetype'),
+  				url('fonts/iconfont.svg#iconfont') format('svg');
+			}
+		.error-tip{
+			font-size: 12px;
+			color: red;
+			font-family: 'iconfont';
+			display: inline-block;
+			border: 0px solid red;
+			width: 300px;
+			position: relative;
+			top: -3px;
+			}
+
+		</style>
+
+	</head>
+
+	<body>.
+
+					<div class="wai">
+						
+						<form action="#" method="post" id="doAdd">
+						<div class="panel panel-primary magin_center mydiv" >
+						<div class="panel-heading"><h4>添加试题</h4></div>
+						<div class="panel-body">
+							<table class="table table-hover">
+						<tr>
+							<td class="nav1">题干</td>
+							<td>
+								<input  type="text" name="qes_head" id="qes_head" value="" placeholder="请输入题干" />
+								<span class="error-tip"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="nav1">试题类型</td>
+							<td>
+							
+								<select name="qes_sub" id="sel" >
+								<option  selected >  请选择	</option >
+								
+								<c:forEach items="${list_sub }" var="s">
+									<option value="${s.qes_subid }">  ${s.qes_subname }	</option >
+								</c:forEach>
+								
+								</select>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="nav1">答案:</td>
+							<td>
+								<input  type="text" name="qes_answer" id="userName" value="" placeholder="请输入答案" />
+								<span class="error-tip"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="nav1">选项A</td>
+							<td><input  type="text" name="qes_optionA" id="qes_optionA" value="" placeholder="输入A选项" />
+							<span class="error-tip"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="nav1">选项B</td>
+							<td>
+								<input  type="text" name="qes_optionB" id="qes_optionB" value="" placeholder="输入B选项" />
+								<span class="error-tip"></span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="nav1">选项C</td>
+							<td><input  type="text" name="qes_optionC" id="qes_optionC" value="" placeholder="输入C选项" />
+							<span class="error-tip"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="nav1">选项D</td>
+							<td><input  type="text" name="qes_optionD" id="qes_optionD" value="" placeholder="输入D选项" />
+							<span class="error-tip"></span>
+							</td>
+						</tr>
+						
+						<tr align="center">
+							<td colspan="2" class="buttons">
+								<button type="submit" class="btn btn-primary" id="sub"> 添 加 </button>
+								<button type="reset" class="btn btn-warning"> 重 置 </button>
+							</td>
+						</tr>
+					</table>
+					
+					</div>
+					</div>
+				</form>
+				
+				
+				</div>
+				
+
+	</body>
+	
+	
+	<script type="text/javascript">
+
+	
+	$(function(){
+		
+		$("#sel").change(function(){
+			var option=$("#sel option:selected");
+			var i =option.val();
+			$("form[id=doAdd]").attr("action","doAddqes?id="+i);
+			
+		});
+		
+		
+		
+	});
+		var que_tit = false;
+		var ans = false;
+		var op_a = false;
+		var op_b = false;
+		var op_c = false;
+		var op_d = false;
+		//-----------------题干-------------------	
+		var uname = document.getElementById("qes_head");
+		var qes_head_uname = document.getElementById("qes_head");
+		//获取焦点
+		uname.onfocus=function(){
+			qes_head_uname.className="box active";
+		}
+		//移除焦点
+		var span = qes_head_uname.nextElementSibling;
+		uname.onblur=function(){
+			qes_head_uname.className="box";
+			var reg_1 = /^\s*$/g;
+			if(uname.value=="" || reg_1.test(uname.value)){
+				span.style.color='red';
+				span.innerHTML="&#xe655; 题干不能为空！";
+				$("#sub").attr("disabled","true");
+				que_tit = false;
+			}else{
+				span.style.color='green';
+				span.innerHTML="&#xe6bb; 题干可用";
+				//$("#sub").removeAttr("disabled");
+				que_tit = true;
+				myblock ();
+
+			}
+		}
+		//--------------------答案---------------------
+		var pass = document.getElementById("userName");
+		var three_f = document.getElementById("userName");
+		pass.onfocus=function(){
+			three_f.style.borderColor='dodgerblue';
+			three_f.style.color='dodgerblue';
+		}
+		var span_p = three_f.nextElementSibling;
+		pass.onblur=function(){
+			three_f.style.borderColor='#969896';
+			three_f.style.color='#969896';
+			//var reg_1 = /^\s*$/g;
+			//var reg_2 = /[A-D]/;
+			var reg_2 = /^A?B?C?D?$/;
+			
+			//var reg_2 = /^\s*$/g;
+			if(pass.value=="" || !reg_2.test(pass.value)){
+				span_p.style.color='red';
+				span_p.innerHTML="&#xe655; 不符合规范！";
+				$("#sub").attr("disabled","true");
+				ans = false;
+
+			}else{
+				span_p.style.color='green';
+				span_p.innerHTML="&#xe6bb;";
+				//$("#sub").removeAttr("disabled");
+				ans = true;
+				myblock ();
+
+			}
+		}
+		//--------------------选项---------------------
+		var users_name = document.getElementById("qes_optionA");
+		var name_box = document.getElementById("qes_optionA");
+		users_name.onfocus=function(){
+			name_box.style.borderColor='dodgerblue';
+			name_box.style.color='dodgerblue';
+		}
+		var span_e = name_box.nextElementSibling;
+		users_name.onblur=function(){
+			name_box.style.borderColor='#969896';
+			name_box.style.color='#969896';
+			//不能为空，不能为空格
+			var reg_3 = /^\s*$/g;
+			if(users_name.value=="" || reg_3.test(users_name.value)){
+				span_e.style.color='red';
+				span_e.innerHTML="&#xe655; 选项不能为空！";
+				$("#sub").attr("disabled","true");
+				op_a = false;
+
+			}else{
+				span_e.style.color='green';
+				span_e.innerHTML="&#xe6bb; 选项可用";
+				//$("#sub").removeAttr("disabled");
+				op_a = true;
+				myblock ();
+
+			}
+		}
+		
+		var un = document.getElementById("qes_optionB");
+		var un_box = document.getElementById("qes_optionB");
+		un.onfocus=function(){
+			un_box.style.borderColor='dodgerblue';
+			un_box.style.color='dodgerblue';
+		}
+		var span_b = un_box.nextElementSibling;
+		un.onblur=function(){
+			un_box.style.borderColor='#969896';
+			un_box.style.color='#969896';
+			//不能为空，不能为空格
+			var reg_b = /^\s*$/g;
+			if(un.value=="" || reg_b.test(un.value)){
+				span_b.style.color='red';
+				span_b.innerHTML="&#xe655; 选项不能为空！";
+				$("#sub").attr("disabled","true");
+				op_b = false;
+
+			}else{
+				span_b.style.color='green';
+				span_b.innerHTML="&#xe6bb; 选项可用";
+				//$("#sub").removeAttr("disabled");
+				op_b = true;
+				myblock ();
+
+			}
+		}
+		
+		var unc = document.getElementById("qes_optionC");
+		var unc_box = document.getElementById("qes_optionC");
+		unc.onfocus=function(){
+			unc_box.style.borderColor='dodgerblue';
+			unc_box.style.color='dodgerblue';
+		}
+		var span_c = unc_box.nextElementSibling;
+		unc.onblur=function(){
+			unc_box.style.borderColor='#969896';
+			unc_box.style.color='#969896';
+			//不能为空，不能为空格
+			var reg_c = /^\s*$/g;
+			if(unc.value=="" || reg_c.test(unc.value)){
+				span_c.style.color='red';
+				span_c.innerHTML="&#xe655; 选项不能为空！";
+				$("#sub").attr("disabled","true");
+				op_c = false;
+
+			}else{
+				span_c.style.color='green';
+				span_c.innerHTML="&#xe6bb; 选项可用";
+				//$("#sub").removeAttr("disabled");
+				op_c = true;
+				myblock ();
+
+			}
+		}
+		
+		var und = document.getElementById("qes_optionD");
+		var und_box = document.getElementById("qes_optionD");
+		und.onfocus=function(){
+			und_box.style.borderColor='dodgerblue';
+			und_box.style.color='dodgerblue';
+		}
+		var span_d = und_box.nextElementSibling;
+		und.onblur=function(){
+			und_box.style.borderColor='#969896';
+			und_box.style.color='#969896';
+			//不能为空，不能为空格
+			var reg_d = /^\s*$/g;
+			if(und.value=="" || reg_d.test(und.value)){
+				span_d.style.color='red';
+				span_d.innerHTML="&#xe655; 选项不能为空！";
+				("#sub").attr("disabled","true");
+				op_d = false;
+
+			}else{
+				span_d.style.color='green';
+				span_d.innerHTML="&#xe6bb; 选项可用";
+				//$("#sub").removeAttr("disabled");
+				op_d = true;
+				myblock ();
+
+			}
+		}
+		
+		var que_tit = false;
+		var ans = false;
+		var op_a = false;
+		var op_b = false;
+		var op_c = false;
+		var op_d = false;
+		
+			function myblock () {
+			if(que_tit==true&&ans==true&&op_a==true&&op_b==true&&op_c==true&&op_d==true){
+				$("#sub").removeAttr("disabled");
+			}
+		}
+
+	</script>
+	
+</html>

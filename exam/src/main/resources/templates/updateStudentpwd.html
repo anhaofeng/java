@@ -1,0 +1,128 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+ <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+ <!-- 验证是否登录 -->
+<c:import url="yanzheng.jsp"></c:import>  
+<!-- 验证是否登录 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>修改</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+		<script type="text/javascript" src="js/jquery-1.9.1.min.js" ></script>
+		<script type="text/javascript" src="js/Validform_v5.3.2.js" ></script>
+
+		<style type="text/css">
+			.magin_center{
+				margin: 0px auto;
+				width: 400px;
+			}
+			.magin_center td{
+				padding: 10px;
+			}
+			.magin_center table{
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		
+	
+		<div class="panel panel-success magin_center">
+			<div class="panel-heading">学生信息修改</div>
+			<div class="panel-body">
+				<form method="post" action="updateStudentpwd" id="myform">
+					<input type="hidden" name="id" id="id" value="${login_student.s_id}" />
+					<table class="table table-hover">
+						<input type="hidden" name="role" id="role" value="${login_student.s_role}" />
+						<input type="hidden" name="grade" id="grade" value="${login_student.s_grade}" />
+						<input type="hidden" name="error" id="error" value="${login_student.s_error}" />
+						<input type="hidden" name="old_pwd_hidden" id="old_pwd_hidden" value="${login_student.s_pwd}" />
+						<input type="hidden" name="state" id="state" value="${login_student.s_state}" />
+						
+						<tr>
+							<td>原始密码</td>
+							<td><input class="form-control" datatype="*3-6" type="password" name="old_pwd" id="old_pwd" value="" placeholder="密码长度3~8位" />
+							<span id="ti"></span>
+							</td>
+							
+						</tr>
+						<tr>
+							<td>新密码</td>
+							<td><input class="form-control" type="password" name="new_pwd" id="new_pwd" value="" placeholder="密码长度3~8位" /></td>
+							<span></span>
+						</tr>
+						<tr>
+							<td>确认新密码</td>
+							<td><input class="form-control" onkeyup="validate()" type="password" name="q_new_pwd" id="q_new_pwd" value="" placeholder="密码长度3~8位" />
+							<span id="tishi"></span>
+							</td>
+							<span></span>
+						</tr>
+						<tr>
+						</tr>
+						<tr align="center">
+							<td colspan="2">
+								<button type="submit" class="btn btn-primary" id="btn" disabled="true"> 修 改 </button>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<button type="reset" class="btn btn-warning"> 重 置 </button>
+							</td>
+						</tr>
+						
+						
+					</table>
+					
+					
+				</form>
+			</div>
+		</div>
+		
+	</body>
+		<script type="text/javascript">
+		$(document).ready(function() {
+		    $("#old_pwd").keyup(function() {
+		        var old_pwd = $("#old_pwd").val();   //ur事件
+		        // 向后台发送处理数据  
+		        $.ajax({
+		            url : "updateStudentpwd?method=ajax",    //目标地址
+		            data : "old_pwd=" + old_pwd,    //传输的数据
+		            type : "post",      // 用POST方式传输 
+		            dataType : "text",    // 数据格式
+		            success : function(data) {
+		                data = parseInt(data, 10);
+		                if (data == 1) {
+			                document.getElementById("ti").innerHTML="<font color='green'>√ 密码正确</font>";
+			                document.getElementById("btn").disabled = true;
+		                } else if (data == 0){
+			                  document.getElementById("ti").innerHTML="<font color='red'>× 密码错误</font>";
+		                    document.getElementById("btn").disabled = true;
+		                }
+		            }
+		        });
+		    });
+		});
+		
+		
+        function validate() {
+            var pwd1 = document.getElementById("new_pwd").value;
+            var pwd2 = document.getElementById("q_new_pwd").value;
+            if(pwd1 == pwd2) {
+                document.getElementById("tishi").innerHTML="<font color='green'>√ 两次密码相同</font>";
+                document.getElementById("btn").disabled = false;
+            }
+            else {
+                document.getElementById("tishi").innerHTML="<font color='red'>× 两次密码不相同</font>";
+              document.getElementById("btn").disabled = true;
+            }
+        }
+        
+        $(function () {
+        	$("#btn").click(function () {
+                location="removeSession";
+        	})
+        })
+		</script>
+</html>

@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/IdeaExam
+    username: root
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  mvc:
+    view:
+      prefix:
+      suffix: .jsp
+
+  thymeleaf:
+     mode: HTML5
+     content-type: text/html
+     cache: false
+server:
+  port: 8090
