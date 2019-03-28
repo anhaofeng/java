@@ -1,150 +1,149 @@
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
-<!-- 验证是否登录 -->
-<c:import url="yanzheng.jsp"></c:import>  
-<!-- 验证是否登录 -->
-	<head>
-	
-		<meta charset="utf-8">
-		<title>MyExam</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
 
-		<meta name="description" content="">
-		<link href="css/bootstrap-3.3.4.css" rel="stylesheet">
-		<script type="text/javascript" src="js/jquery-2.1.0.js" ></script>
-		<script type="text/javascript" src="js/bootstrap.js" ></script>
+    <meta charset="utf-8">
+    <title>MyExam</title>
 
-		<style type="text/css">
-		.wai{
-			width:1000px;
-			margin:0px auto;
-		}
-		
-		
-		table tr td,table tr th{
-			border:1px solid #DDDDDD;
-		}
-		
-		#deletes{
-			margin-left:30px;
-			margin-right:30px;
-		}
-		#zhidings{
-			margin-right: 30px;
-		}
-		</style>
-	</head>
-	<body>
-			<div class="wai">
-				<table border="" cellspacing="" cellpadding="" class="table  table-hover">
-									<tr class="headers">
-										<th>公告标题</th>
-										<th>公告时间</th>
-										<th>操  作</th>
-									</tr>
-								<c:forEach items="${list_message }" var="m">
-									<tr>
-										
-										<td>	
-											<a href="#" href="#" data-toggle="modal" id="show_modal"   id="show_modal" data-target="#myModal" data-id="${m.mes_id }">${m.mes_head }</a>
-											</td>
-										<td>	  ${m.mes_time }	</td>
-										<td>
-											 <button  type="button" class="btn btn-danger" value="delete"  data-id="${m.mes_id }" id="deletes">删除</button>		
-											 <button  type="button" class="btn btn-primary" id="zhidings" value="updata"  data-id="${m.mes_id }">修改</button>		
-											<input type="button"   class="btn btn-success"  data-id="${m.mes_id }"  data-top="${m.mes_top }"	value="${m.mes_top>0? "取消置顶" : "置顶" } ">
-										
-										</td>
-										
-										
-										
-									</tr>
-								
-								</c:forEach>
-								
-									</table>
-			</div>
-	<!-- 模式化 -->
-		<!-- Modal -->
-		<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
-		  <div class="modal-dialog modal-lg" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		      	<!-- 关闭X -->
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <!-- 标题 -->
-		        <h4 class="modal-title" id="myModalLabel">详细信息</h4>
-		      </div>
-		      
-		      
-		      <form action="getUpdataMes?method=updata">
-		      
-		      
-		      <div class="modal-body">
-				<iframe src="messageInfo.jsp" frameborder="0" width="100%" id="stu_modal" height="400px" scrolling="no" ></iframe>		       	
-		     
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-		       
-		      </div>
-		      </form>
-		      
-		      
-		    </div>
-		  </div>
-		</div>			
-								
-		
-	</body>
-	<script type="text/javascript">
-		$(function(){
-			$("a[id=show_modal]").click(function(){
-			var id = $(this).attr("data-id");
-			$("#stu_modal").attr("src","getUpdataMes?method=byId&id="+id);
-			$("#myModal").modl("show");
-		})
-			
-		
-		$("button[value=updata]").click(function(){
-			
-			var id = $(this).attr("data-id");
-			location="getUpdataMes?method=updata&id="+id;
-			
-		})
-		
-		
-		$("button[value=delete]").click(function(){
-			
-			var a= confirm("是否删除");
-			
-			if(a){
-			var id = $(this).attr("data-id");
-			location="getUpdataMes?method=delete&id="+id;
-				
-			}
-			
-			
-		})
-		$("input[type=button]").click(function(){
-			var top= $(this).attr("data-top");
-			var id = $(this).attr("data-id");
-			location="getUpdataMes?method=top&id="+id+"&mes_top="+top;
-				
-		
-		})
+    <meta name="description" content="">
+    <link href="css/bootstrap-3.3.4.css" rel="stylesheet">
+    <script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
 
-		
-		
-		
-		})
-		
-		</script>
-		
+    <style type="text/css">
+        .wai {
+            width: 1000px;
+            margin: 0px auto;
+        }
 
+        table tr td, table tr th {
+            border: 1px solid #DDDDDD;
+        }
+
+        #deletes {
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+
+        #zhidings {
+            margin-right: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="wai">
+    <table border="" cellspacing="" cellpadding="" class="table  table-hover">
+        <tr class="headers">
+            <th>公告标题</th>
+            <th>公告时间</th>
+            <th>操 作</th>
+        </tr>
+        <tr th:each="message : ${messages}">
+
+            <td>
+                <a href="#"  data-toggle="modal"  id="show_modal" data-target="#myModal"
+                  th:text="${message.mes_head}" th:attr="data-id=${message.mes_id}"></a>
+            </td>
+            <td th:text="${message.mes_time}"> </td>
+            <td>
+                <button type="button" class="btn btn-danger" value="delete" th:attr="data-id=${message.mes_id}"
+                        id="deletes">删除
+                </button>
+                <button type="button" class="btn btn-primary" id="zhidings" value="updata" th:attr="data-id=${message.mes_id}">修改
+                </button>
+                <input type="button" class="btn btn-success" th:attr="data-id=${message.mes_id}" data-top="${m.mes_top }"
+                       th:value="${message.mes_top>0? '取消置顶':'置顶'}" >
+
+            </td>
+
+
+        </tr>
+
+
+    </table>
+</div>
+<!-- 模式化 -->
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- 关闭X -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <!-- 标题 -->
+                <h4 class="modal-title" id="myModalLabel">详细信息</h4>
+            </div>
+
+
+            <form action="getUpdataMes?method=updata">
+
+
+                <div class="modal-body">
+                    <iframe src="messageInfo.html" frameborder="0" width="100%" id="stu_modal" height="400px"
+                            scrolling="no"></iframe>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script type="text/javascript">
+    $(function () {
+        $("a[id=show_modal]").click(function () {
+            var id = $(this).attr("data-id");
+            $("#stu_modal").attr("src", "getUpdataMes?method=byId&id=" + id);
+            $("#myModal").modl("show");
+        })
+
+
+        $("button[value=updata]").click(function () {
+
+            var id = $(this).attr("data-id");
+            location = "getUpdataMes?method=updata&id=" + id;
+
+        })
+
+
+        $("button[value=delete]").click(function () {
+
+            var a = confirm("是否删除");
+
+            if (a) {
+                var id = $(this).attr("data-id");
+                $.post("delMessage",{"id":id},function (data) {
+                   if (data==true){
+                       alert('删除成功');
+                       window.location.href = window.location.href;
+                   }
+                })
+
+            }
+
+
+        })
+        $("input[type=button]").click(function () {
+            var top = $(this).attr("data-top");
+            var id = $(this).attr("data-id");
+            location = "getUpdataMes?method=top&id=" + id + "&mes_top=" + top;
+
+
+        })
+
+
+    })
+
+</script>
 
 
 </html>

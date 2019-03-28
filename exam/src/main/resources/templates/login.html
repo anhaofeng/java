@@ -1,8 +1,6 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
+<html lang="en" >
 <html>
-
 <head>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
     <script type="text/javascript" src="js/jquery-2.1.0.js"></script>
@@ -38,14 +36,6 @@
     </style>
 </head>
 <body>
-
-<%
-    //禁止缓存
-    response.setHeader("Catch-Control", "no-store");
-    response.setHeader("Pramga", "no-catch");
-    response.setDateHeader("Expires", 0);
-%>
-
 <input type="hidden" id="TenantId" name="TenantId" value=""/>
 <div class="header">
     <h2>登录- 驾驶员理论模拟考试系统</h2>
