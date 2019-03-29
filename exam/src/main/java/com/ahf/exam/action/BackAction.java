@@ -7,15 +7,14 @@ import com.ahf.exam.service.IStuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class BackAction {
@@ -67,5 +66,31 @@ public class BackAction {
     ok=true;
     return ok;
     }
+    @GetMapping(value = "/doMessage/{id}/{method}")
+    String doMessage(@PathVariable Integer id,@PathVariable String method,Model model){
+        Optional<Message> mes=message.findById(id);
+        model.addAttribute("message",(Message)mes.get());
+        if (("get").equals(method)){
+            return  "messageInfo";
+        }
+        else  {
+            return "messageUpdata";
+        }
+
+
+    }
+@PostMapping(value = "/doMessage")
+@ResponseBody
+    String doMessage(String mes_head,String mes_content,Integer mes_id){
+        message.updateMessage(mes_head,mes_content,mes_id);
+        return "success";
+}
+@RequestMapping(value = "/sortMessage/{id}/{top}")
+@ResponseBody
+    String sortMessage(@PathVariable Integer id,@PathVariable Integer top){
+    top=(top > 0)? 0:1;
+    message.sortMessage(top,id);
+    return "ok";
+}
 
 }

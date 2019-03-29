@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+        <head>
 
     <meta charset="utf-8">
     <title>MyExam</title>
@@ -102,15 +102,15 @@
     $(function () {
         $("a[id=show_modal]").click(function () {
             var id = $(this).attr("data-id");
-            $("#stu_modal").attr("src", "getUpdataMes?method=byId&id=" + id);
-            $("#myModal").modl("show");
+            $("#stu_modal").attr("src", "doMessage/" + id+"/get");
         })
 
 
         $("button[value=updata]").click(function () {
 
             var id = $(this).attr("data-id");
-            location = "getUpdataMes?method=updata&id=" + id;
+
+            location = "doMessage/" + id+"/update";
 
         })
 
@@ -135,7 +135,7 @@
         $("input[type=button]").click(function () {
             var top = $(this).attr("data-top");
             var id = $(this).attr("data-id");
-            location = "getUpdataMes?method=top&id=" + id + "&mes_top=" + top;
+            location = "/sortMessage/" + id + "/" + top;
 
 
         })

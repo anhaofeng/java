@@ -1,11 +1,11 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html >
+<html  xmlns:th="http://www.thymeleaf.org">
 <head>
 <!-- 验证是否登录 -->
 <c:import url="yanzheng.jsp"></c:import>  
 <!-- 验证是否登录 -->
-<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" >
 	<style>
 <!--
 	.wai{
@@ -37,14 +37,17 @@
 						<tr>
 							<td>公告标题</td>
 							<td>
-								<input class="form-control" type="text" name="mes_head" id="qes_head" value="${mes_all.mes_head }" placeholder="请输入公告标题" />
+								<input class="form-control" type="text" name="mes_head" id="qes_head"
+									   th:value="${message.mes_head}"  placeholder="请输入公告标题" />
 							</td>
 						</tr>
 							
 							<tr>
 							<td>公告内容</td>
 							<td>
-								<textarea rows="5" cols="80" name="mes_content" maxlength="6" > ${mes_all.mes_content }</textarea>
+								<textarea rows="5" cols="80" name="mes_content" maxlength="6"
+										  th:text="${message.mes_content}"
+								> </textarea>
 `						
 							</td>
 						</tr>
@@ -60,19 +63,6 @@
 
 
 		</div>
-
-
-
-
-
-
-
-	
-									
-	
-	
-	
-
 
 
 
