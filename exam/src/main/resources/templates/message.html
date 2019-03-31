@@ -19,7 +19,7 @@
         table tr td, table tr th {
             border: 1px solid #DDDDDD;
         }
-
+l
         #deletes {
             margin-left: 30px;
             margin-right: 30px;
@@ -49,9 +49,10 @@
                 <button type="button" class="btn btn-danger" value="delete" th:attr="data-id=${message.mes_id}"
                         id="deletes">删除
                 </button>
-                <button type="button" class="btn btn-primary" id="zhidings" value="updata" th:attr="data-id=${message.mes_id}">修改
+                <button type="button" class="btn btn-primary"  value="updata" th:attr="data-id=${message.mes_id}">修改
                 </button>
-                <input type="button" class="btn btn-success" th:attr="data-id=${message.mes_id}" data-top="${m.mes_top }"
+                <input type="button"  class="btn btn-success" id="top"
+                       th:attr="data-id=${message.mes_id},data-top=${message.mes_top}"
                        th:value="${message.mes_top>0? '取消置顶':'置顶'}" >
 
             </td>
@@ -135,6 +136,7 @@
         $("input[type=button]").click(function () {
             var top = $(this).attr("data-top");
             var id = $(this).attr("data-id");
+            console.log(top+"+"+id)
             location = "/sortMessage/" + id + "/" + top;
 
 

@@ -22,6 +22,8 @@ public interface IMessage extends JpaRepository<Message,Integer>,JpaSpecificatio
     @Modifying(clearAutomatically = true)
     @Query("update Message m set m.mes_head=?1,m.mes_content=?2 where m.mes_id=?3")
     int updateMessage(String head,String content,Integer id);
+    @Transactional
+    @Modifying
     @Query("update Message m set m.mes_top=?1 where m.mes_id=?2")
     int sortMessage(Integer top,Integer id);
     
