@@ -18,9 +18,9 @@ import java.util.Random;
 
 @Controller
 public class IndexController {
-    @RequestMapping("/")
+    @RequestMapping("/guest")
     public String root(){
-        return "login";
+        return "guest/login";
     }
     public Color getRandomColor(int fc, int bc){
         Random random = new Random();

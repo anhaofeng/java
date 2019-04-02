@@ -55,7 +55,7 @@ public class BackAction {
 //        return url;
 //
 //    }
-    @PostMapping(value="/login")
+    @PostMapping(value="/stuLogin")
     public String login(String username, String password) {
         try {
             UsernamePasswordToken passwordToken =new UsernamePasswordToken(username,password);

@@ -35,7 +35,7 @@ public class CustomRealm extends AuthorizingRealm {
         System.out.println("————身份认证方法————");
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         // 从数据库获取对应用户名密码的用户
-        String password = stuService.findS_pwdByS_uname(token.getUsername());
+        String password = stuService.findPwdByUname(token.getUsername());
         if (password == null) {
             throw new AccountException("用户名不正确");
         } else if (!password.equals(new String((char[]) token.getCredentials()))) {
