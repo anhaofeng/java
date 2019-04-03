@@ -2,6 +2,7 @@ package com.ahf.exam.action;
 
 import com.ahf.exam.model.Questions;
 import com.ahf.exam.model.Subject;
+import com.ahf.exam.service.IRole;
 import com.ahf.exam.service.ISubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import java.util.List;
 public class SubjectAction {
     @Autowired
     private ISubjectService subjectService;
+
 
     @PostMapping(value = "/addSub")
     public  void  addSub(Subject sub){
@@ -54,4 +56,5 @@ public class SubjectAction {
     model.addAttribute("qesList",qes);
     return  "subQesList";
     }
+
 }

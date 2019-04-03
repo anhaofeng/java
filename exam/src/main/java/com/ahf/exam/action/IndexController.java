@@ -18,9 +18,9 @@ import java.util.Random;
 
 @Controller
 public class IndexController {
-    @RequestMapping("/guest")
+    @RequestMapping("/login")
     public String root(){
-        return "guest/login";
+        return "login";
     }
     public Color getRandomColor(int fc, int bc){
         Random random = new Random();
@@ -34,7 +34,7 @@ public class IndexController {
         randomColor = new Color(r,g,b);
         return randomColor;//返回具有指定红色、绿色和蓝色值的不透明的 sRGB 颜色
     }
-    @GetMapping(value = "createCode")
+    @GetMapping(value = "/createCode")
     public  void  createCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //禁止页面缓存
         response.setHeader("Pragma", "No-cache");
@@ -88,7 +88,7 @@ public class IndexController {
         response.getOutputStream().close();                    		//关闭输出流
 
     }
-    @PostMapping(value = "validateCode")
+    @PostMapping(value = "/validateCode")
     public  void  validateCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session =request.getSession();
         String reg_code= (String) session.getAttribute("Code");

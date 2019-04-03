@@ -22,14 +22,12 @@ public class ShiroConfig {
         // 设置拦截器
         Map<String,String> fileChaineDefinitionMap= new LinkedHashMap<>();
         //游客，开发权限
-        fileChaineDefinitionMap.put("/guest/**","anon");
-        fileChaineDefinitionMap.put("/css/**","anon");
-        fileChaineDefinitionMap.put("/js/**","anon");
-        fileChaineDefinitionMap.put("/img/**","anon");
-        fileChaineDefinitionMap.put("/h-ui/**","anon");
-        fileChaineDefinitionMap.put("/h-ui.admin/**","anon");
-        fileChaineDefinitionMap.put("/fonts/**","anon");
+        fileChaineDefinitionMap.put("/login","anon");
         fileChaineDefinitionMap.put("/createCode","anon");
+        fileChaineDefinitionMap.put("/validate","anon");
+        fileChaineDefinitionMap.put("/static/**","anon");
+        fileChaineDefinitionMap.put("/stuLogin","anon");
+
         //用户，需要角色权限 “user”
 //        fileChaineDefinitionMap.put("/user/**","roles[user]");
         //管理员，需要角色权限 “admin”
@@ -38,8 +36,8 @@ public class ShiroConfig {
 //        fileChaineDefinitionMap.put("/authorization/**","anon");
         //其余接口一律拦截
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
-        fileChaineDefinitionMap.put("/**","authc");
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(fileChaineDefinitionMap);
+//        fileChaineDefinitionMap.put("/**","authc");
+//        shiroFilterFactoryBean.setFilterChainDefinitionMap(fileChaineDefinitionMap);
         System.out.println("shior拦截器工厂类注入成功");
         return shiroFilterFactoryBean;
     }

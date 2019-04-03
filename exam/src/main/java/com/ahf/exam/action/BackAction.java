@@ -4,6 +4,7 @@ import com.ahf.exam.model.Message;
 import com.ahf.exam.model.Role;
 import com.ahf.exam.model.Student;
 import com.ahf.exam.service.IMessage;
+import com.ahf.exam.service.IRole;
 import com.ahf.exam.service.IStuService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -28,6 +29,8 @@ public class BackAction {
     private IStuService stuService;
     @Autowired
     private IMessage message;
+    @Autowired
+    private IRole roleService;
 
 //    @PostMapping("stuLogin")
 //    public  String stuLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -121,5 +124,17 @@ public class BackAction {
     message.sortMessage(top,id);
     return "ok";
 }
-
+    @GetMapping(value = "/getRoles")
+    String getRoles(Model model){
+        List<Role> roles=roleService.findAll();
+        model.addAttribute("roleList",roles);
+        return "addStudent";
+    }
+    @PostMapping(value = "/addStu")
+    @ResponseBody
+    String addStu(Model model){
+        List<Role> roles=roleService.findAll();
+        model.addAttribute("roleList",roles);
+        return "ok";
+    }
 }
