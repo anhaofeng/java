@@ -1,5 +1,7 @@
 package com.ahf.exam.action;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,13 @@ public class IndexController {
     @RequestMapping("/login")
     public String root(){
         return "login";
+    }
+    @GetMapping("/loginOut")
+    @ResponseBody
+    String loginOut(){
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return "loginOut Success！";
     }
     public Color getRandomColor(int fc, int bc){
         Random random = new Random();
