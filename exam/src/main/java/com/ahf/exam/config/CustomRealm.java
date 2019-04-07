@@ -33,15 +33,27 @@ public class CustomRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         System.out.println("————身份认证方法————");
-        UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
+//        UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
+        String token = (String)authenticationToken.getPrincipal();
+        String account  = JwtUtil.getClaim(token,SecurityConsts.ACCOUNT);
+        if (account == null) {
+            throw new AuthenticationException("token invalid");
+        }
         // 从数据库获取对应用户名密码的用户
         String password = stuService.findPwdByUname(token.getUsername());
         if (password == null) {
             throw new AccountException("用户名不正确");
-        } else if (!password.equals(new String((char[]) token.getCredentials()))) {
-            throw new AccountException("密码不正确");
         }
-        return new SimpleAuthenticationInfo(token.getPrincipal(), password, getName());
+        String refreshTokenCacheKey = SecurityConsts.PREFIX_SHIRO_REFRESH_TOKEN + account;
+        if (JwtUtil.verify(token) && cacheClient.exists(refreshTokenCacheKey)) {
+            String currentTimeMillisRedis = cacheClient.get(refreshTokenCacheKey);
+            // 获取AccessToken时间戳，与RefreshToken的时间戳对比
+            if (JwtUtil.getClaim(token, SecurityConsts.CURRENT_TIME_MILLIS).equals(currentTimeMillisRedis)) {
+                return new SimpleAuthenticationInfo(token, token, "shiroRealm");
+            }
+        }
+        throw new AuthenticationException("Token expired or incorrect.");
+//        return new SimpleAuthenticationInfo(token.getPrincipal(), password, getName());
     }
 
     /**
