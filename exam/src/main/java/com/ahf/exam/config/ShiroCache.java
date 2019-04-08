@@ -2,20 +2,6 @@ package com.ahf.exam.config;
 
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
-import org.apache.shiro.cache.CacheManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-@Service
-public class ShiroCacheManager implements CacheManager {
-    @Autowired
-    CacheClient cacheClient;
-
-    @Override
-    public <K, V> Cache<K, V> getCache(String s) throws CacheException {
-        return new ShiroCache<K,V>(cacheClient);
-    }
-}
 
 /**
  * 重写Shiro的Cache保存读取

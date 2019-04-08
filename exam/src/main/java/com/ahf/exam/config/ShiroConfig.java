@@ -23,6 +23,10 @@ public class ShiroConfig {
         return  new LifecycleBeanPostProcessor();
     }
     @Bean
+    public JwtFilter jwtFilter(){
+        return new JwtFilter();//此处为AccessToken
+    }
+    @Bean
     @DependsOn("lifecycleBeanPostProcessor")
     static DefaultAdvisorAutoProxyCreator getLifecycleBeanPostProcessor(){
         DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator =new DefaultAdvisorAutoProxyCreator();
@@ -92,8 +96,5 @@ public class ShiroConfig {
     }
 
 
-    @Bean
-    public JwtFilter jwtFilter(){
-        return new JwtFilter();//此处为AccessToken
-    }
+
 }
