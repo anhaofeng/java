@@ -6,7 +6,7 @@ public class SecurityConsts {
     public static final String REQUEST_AUTH_HEADER="Authorization";
 
     //JWT-account
-    public static final String ACCOUNT = "account";
+    public static final String ACCOUNT = "username";
 
     //Shiro redis 前缀
     public static final String PREFIX_SHIRO_CACHE = "storyweb-bp:cache:";

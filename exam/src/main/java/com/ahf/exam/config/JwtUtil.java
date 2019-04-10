@@ -5,6 +5,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,12 +35,16 @@ public class JwtUtil {
      * @return
      */
     public static boolean verify(String token) throws UnsupportedEncodingException {
-        String secret = getClaim(token, SecurityConsts.ACCOUNT) + jwtUtil.jwtProperties.secretKey;
-        Algorithm algorithm = Algorithm.HMAC256(secret);
-        JWTVerifier verifier = JWT.require(algorithm)
-                .build();
-        verifier.verify(token);
-        return true;
+        try {
+            String secret = getClaim(token, SecurityConsts.ACCOUNT) + jwtUtil.jwtProperties.secretKey;
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .build();
+            verifier.verify(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -60,10 +65,9 @@ public class JwtUtil {
     /**
      * 生成签名,5min后过期
      * @param account
-     * @param currentTimeMillis
      * @return
      */
-    public static String sign(String account, String currentTimeMillis) throws UnsupportedEncodingException {
+    public static String sign(String account) throws UnsupportedEncodingException {
         // 帐号加JWT私钥加密
         String secret = account + jwtUtil.jwtProperties.getSecretKey();
         // 此处过期时间，单位：毫秒
@@ -72,7 +76,7 @@ public class JwtUtil {
 
         return JWT.create()
                 .withClaim(SecurityConsts.ACCOUNT, account)
-                .withClaim(SecurityConsts.CURRENT_TIME_MILLIS, currentTimeMillis)
+//                .withClaim(SecurityConsts.CURRENT_TIME_MILLIS, currentTimeMillis)
                 .withExpiresAt(date)
                 .sign(algorithm);
     }

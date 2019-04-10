@@ -1,5 +1,6 @@
 package com.ahf.exam.action;
 
+import com.ahf.exam.config.JwtUtil;
 import com.ahf.exam.model.Message;
 import com.ahf.exam.model.Role;
 import com.ahf.exam.model.Student;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -59,16 +61,20 @@ public class BackAction {
 //
 //    }
     @PostMapping(value="/stuLogin")
-    public String login(String username, String password) {
-        try {
-            UsernamePasswordToken passwordToken =new UsernamePasswordToken(username,password);
-            Subject subject = SecurityUtils.getSubject();
-
-            subject.login(passwordToken);
-        } catch (Exception e) {
-            e.printStackTrace();
+    public String login(String username, String password) throws UnsupportedEncodingException {
+//        try {
+//            UsernamePasswordToken passwordToken =new UsernamePasswordToken(username,password);
+//            Subject subject = SecurityUtils.getSubject();
+//
+//            subject.login(passwordToken);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        Student stu=stuService.stuLogin(username,password);
+        if (stu==null){
+            return "账号或密码错误";
         }
-
+        JwtUtil.sign(username);
         Set<Role> roles=stuService.findUserRoles(username);
 
         for (Role role:roles) {
