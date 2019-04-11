@@ -20,15 +20,11 @@ import java.io.PrintWriter;
 public class JwtFilter extends BasicHttpAuthenticationFilter {
 
     private Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-
-    @Autowired
-    CacheClient cacheClient;
     @Autowired
     JwtProperties jwtProperties;
-
     /**
-     * 检测Header里Authorization字段
-     * 判断是否登录
+     * 判断用户是否想要登入。
+     * 检测header里面是否包含Authorization字段即可
      */
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
