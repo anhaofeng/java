@@ -1,21 +1,27 @@
 package com.ahf.exam.config;
 
 import com.ahf.exam.model.JwtProperties;
+import com.alibaba.fastjson.JSON;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.mysql.jdbc.Constants;
+import com.sun.net.httpserver.Authenticator;
+import com.sun.net.httpserver.Authenticator.Result;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.transform.Result;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JwtFilter extends BasicHttpAuthenticationFilter {
 
@@ -84,6 +90,23 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         }
         return true;
     }
+    /**
+     * 对跨域提供支持
+     */
+    @Override
+    protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", httpServletRequest.getHeader("Access-Control-Request-Headers"));
+        // 跨域时会首先发送一个option请求，这里我们给option请求直接返回正常状态
+        if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
+            httpServletResponse.setStatus(HttpStatus.OK.value());
+            return false;
+        }
+        return super.preHandle(request, response);
+    }
 
     /**
      * 401非法请求
@@ -99,10 +122,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         try {
             out = httpServletResponse.getWriter();
 
-            Result result = new Result();
-            result.setResult(false);
-            result.setCode(Constants.PASSWORD_CHECK_INVALID);
-            result.setMessage(msg);
+            Map result = new HashMap();
+            result.put("msg", msg);
             out.append(JSON.toJSONString(result));
         } catch (IOException e) {
             LOGGER.error("返回Response信息出现IOException异常:" + e.getMessage());

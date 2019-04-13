@@ -1,4 +1,5 @@
 package com.ahf.exam.config;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.mgt.SecurityManager;
@@ -45,9 +46,8 @@ public class ShiroConfig {
      shiroFilterFactoryBean.setUnauthorizedUrl("/notRole");
 
         // 添加jwt过滤器
-        Map<String, Filter> filterMap = new HashMap<>();
+        Map<String, javax.servlet.Filter> filterMap = shiroFilterFactoryBean.getFilters();
         filterMap.put("jwt", jwtFilter());
-        filterMap.put("logout", new SystemLogoutFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
         // 设置拦截器
         Map<String,String> fileChaineDefinitionMap= new LinkedHashMap<>();
@@ -75,19 +75,22 @@ public class ShiroConfig {
      * 注入 securityManager
      */
     @Bean
-    public  SecurityManager securityManager(CustomRealm customRealm,ShiroCacheManager shiroCacheManager){
+    public  SecurityManager securityManager(CustomRealm customRealm){
         DefaultWebSecurityManager securityManager =new DefaultWebSecurityManager();
         // 设置realm.
         securityManager.setRealm(customRealm);
+        //注入缓存管理器
         DefaultSubjectDAO subjectDAO= new DefaultSubjectDAO();
         DefaultSessionStorageEvaluator defaultSessionStorageEvaluator =new DefaultSessionStorageEvaluator();
         defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
         subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
         securityManager.setSubjectDAO(subjectDAO);
-        securityManager.setCacheManager(shiroCacheManager);
         return securityManager;
 
     }
+
+
+
     @Bean
     AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(DefaultWebSecurityManager securityManager){
         AuthorizationAttributeSourceAdvisor advisor =new AuthorizationAttributeSourceAdvisor();
