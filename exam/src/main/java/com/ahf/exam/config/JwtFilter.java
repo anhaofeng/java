@@ -48,61 +48,17 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         JwtToken token = new JwtToken(authorization);
         // 提交给realm进行登入，如果错误他会抛出异常并被捕获
         getSubject(request, response).login(token);
-
-        // 绑定上下文
-        String account = JwtUtil.getClaim(authorization, SecurityConsts.ACCOUNT);
-        UserContext userContext= new UserContext(new LoginUser(account));
-
-        // 如果没有抛出异常则代表登入成功，返回true
         return true;
     }
 
     /**
-     * 刷新AccessToken，进行判断RefreshToken是否过期，未过期就返回新的AccessToken且继续正常访问
-     */
-    private boolean refreshToken(ServletRequest request, ServletResponse response) {
-        // 获取AccessToken(Shiro中getAuthzHeader方法已经实现)
-        String token = this.getAuthzHeader(request);
-        // 获取当前Token的帐号信息
-        String account = JwtUtil.getClaim(token, SecurityConsts.ACCOUNT);
-        String refreshTokenCacheKey = SecurityConsts.PREFIX_SHIRO_REFRESH_TOKEN + account;
-        // 判断Redis中RefreshToken是否存在
-        if (cacheClient.exists(refreshTokenCacheKey)) {
-            // 获取RefreshToken时间戳,及AccessToken中的时间戳
-            // 相比如果一致，进行AccessToken刷新
-            String currentTimeMillisRedis = cacheClient.get(refreshTokenCacheKey);
-            String tokenMillis=JwtUtil.getClaim(token, SecurityConsts.CURRENT_TIME_MILLIS);
-
-            if (tokenMillis.equals(currentTimeMillisRedis)) {
-
-                // 设置RefreshToken中的时间戳为当前最新时间戳
-                String currentTimeMillis = String.valueOf(System.currentTimeMillis());
-                Integer refreshTokenExpireTime = jwtProperties.refreshTokenExpireTime;
-                cacheClient.set(refreshTokenCacheKey, currentTimeMillis,refreshTokenExpireTime*60l);
-
-                // 刷新AccessToken，为当前最新时间戳
-                token = JwtUtil.sign(account, currentTimeMillis);
-
-                // 使用AccessToken 再次提交给ShiroRealm进行认证，如果没有抛出异常则登入成功，返回true
-                JwtToken jwtToken = new JwtToken(token);
-                this.getSubject(request, response).login(jwtToken);
-
-                // 设置响应的Header头新Token
-                HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-                httpServletResponse.setHeader(SecurityConsts.REQUEST_AUTH_HEADER, token);
-                httpServletResponse.setHeader("Access-Control-Expose-Headers", SecurityConsts.REQUEST_AUTH_HEADER);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 是否允许访问
-     * @param request
-     * @param response
-     * @param mappedValue
-     * @return
+     * 这里我们详细说明下为什么最终返回的都是true，即允许访问
+     * 例如我们提供一个地址 GET /article
+     * 登入用户和游客看到的内容是不同的
+     * 如果在这里返回了false，请求会被直接拦截，用户看不到任何东西
+     * 所以我们在这里返回true，Controller中可以通过 subject.isAuthenticated() 来判断用户是否登入
+     * 如果有些资源只有登入用户才能访问，我们只需要在方法上面加上 @RequiresAuthentication 注解即可
+     * 但是这样做有一个缺点，就是不能够对GET,POST等请求进行分别过滤鉴权(因为我们重写了官方的方法)，但实际上对应用影响不大
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
@@ -115,12 +71,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
                 if (throwable != null && throwable instanceof SignatureVerificationException) {
                     msg = "Token或者密钥不正确(" + throwable.getMessage() + ")";
                 } else if (throwable != null && throwable instanceof TokenExpiredException) {
-                    // AccessToken已过期
-                    if (this.refreshToken(request, response)) {
-                        return true;
-                    } else {
+
                         msg = "Token已过期(" + throwable.getMessage() + ")";
-                    }
                 } else {
                     if (throwable != null) {
                         msg = throwable.getMessage();
