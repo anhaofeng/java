@@ -81,11 +81,9 @@ public class CustomRealm extends AuthorizingRealm {
         String username = (String) SecurityUtils.getSubject().getPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //获得该用户角色
-        Set<Role> roles = stuService.findUserRoles(username);
+        Role role = stuService.findUserRoles(username);
         Set<String> roleString=null;
-        for (Role role:roles) {
             roleString.add(role.getRes_name());
-        }
 //        Set<String> set = new HashSet<>();
 //        //需要将 role 封装到 Set 作为 info.setRoles() 的参数
 //        set.add(role);

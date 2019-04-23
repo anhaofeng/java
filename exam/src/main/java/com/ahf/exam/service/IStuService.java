@@ -17,7 +17,7 @@ public interface IStuService extends JpaRepository<Student,Integer>,JpaSpecifica
      Student stuLogin(@Param("uname") String uname, @Param("pwd") String pwd);
 
     @Query(value = "select s.s_role from student s where s_uname=:uname",nativeQuery = true)
-    Set<Role> findUserRoles(@Param("uname") String uname);
+    Role findUserRoles(@Param("uname") String uname);
     @Query(value = "select s_pwd from student where  s_uname=:uname",nativeQuery = true)
     String findPwdByUname(@Param("uname") String uname);
 }

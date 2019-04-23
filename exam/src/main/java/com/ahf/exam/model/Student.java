@@ -18,9 +18,8 @@ public class Student {
     @Id
     @GeneratedValue
     private int s_id;//学生id
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name="userId")
-    private Set<Role> roles;
+    @OneToOne(fetch = FetchType.EAGER)
+    private Role role;
     private String s_name;//学生姓名
     private String s_uname;//用户名
     private String s_pwd;//登录密码

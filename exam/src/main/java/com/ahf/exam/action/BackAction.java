@@ -75,16 +75,14 @@ public class BackAction {
             return "账号或密码错误";
         }
         JwtUtil.sign(username);
-        Set<Role> roles=stuService.findUserRoles(username);
+        Role role=stuService.findUserRoles(username);
 
-        for (Role role:roles) {
             if ("student".equals(role.getRes_name())){
                 return "studentindex";
             }
             if ("teacher".equals(role.getRes_name())){
                 return "index";
             }
-        }
 
         return "权限错误！";
     }
@@ -138,9 +136,8 @@ public class BackAction {
     }
     @PostMapping(value = "/addStu")
     @ResponseBody
-    String addStu(Model model){
-        List<Role> roles=roleService.findAll();
-        model.addAttribute("roleList",roles);
+    String addStu(Student stu){
+        stuService.save(stu);
         return "ok";
     }
 }

@@ -128,7 +128,8 @@
 						<td >
 							<select name="roles" id="role" >
 								<option  selected value="0">  请选择	</option >
-								<option th:each="role:${roleList}" th:text="${role.res_name}"></option>
+								<option th:selected="${student.role.res_id}" th:each="role:${roleList}"
+										th:text="${role.res_name}"></option>
 							</select>
 						</td>
 					</tr>

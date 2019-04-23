@@ -10,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
+import static javafx.scene.input.KeyCode.T;
+
 @Repository
 public interface IMessage extends JpaRepository<Message,Integer>,JpaSpecificationExecutor<Message> {
     @Query(value = "select * from Message m where m.mes_state=1 order by m.mes_top desc,m.mes_time desc ",nativeQuery
@@ -27,5 +30,5 @@ public interface IMessage extends JpaRepository<Message,Integer>,JpaSpecificatio
     @Modifying
     @Query("update Message m set m.mes_top=?1 where m.mes_id=?2")
     int sortMessage(Integer top,Integer id);
-    
+
 }
