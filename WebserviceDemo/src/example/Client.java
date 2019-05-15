@@ -16,7 +16,7 @@ public class Client {
         String url = "http://171.15.17.128:6888/ormrpc/services/EASLogin?wsdl";
         String method = "login";
 
-        Object[] parms = new Object[]{"username","password","eas","WX003","L2",0};
+        Object[] parms = new Object[]{"user","","eas","WX003","L2",0};
 //        parms[6]="BaseDB";
 
 
@@ -52,7 +52,7 @@ public class Client {
             rpcCall.setTargetEndpointAddress(new java.net.URL(url));
             rpcCall2.setTargetEndpointAddress(new java.net.URL("http://171.15.17.128:6888/ormrpc/services/WSWSqxInterfaceInvokeFacade?wsdl"));
             rpcCall.setOperationName(method);
-            rpcCall2.setOperationName("invokeRecevieBill");
+            rpcCall2.setOperationName("invokePaymentBill");
             //执行webservice方法
             rpcCall.addParameter("userName", org.apache.axis.Constants.XSD_STRING,
                     ParameterMode.IN);
@@ -74,18 +74,19 @@ public class Client {
             rpcCall.setReturnType(qn,WSContext.class);
             WSContext wscontext = (WSContext) rpcCall.invoke(args);
             System.out.println(wscontext.getSessionId());
-            String invoke = rpcCall2.invoke(new Object[]{"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                    "<ReceivingBill>\n" +
+            String invoke = rpcCall2.invoke(new Object[]{"<?xml version='1.0' encoding='utf-8'?>\n" +
+                    "<PayBill>\n" +
                     "  <billHead>\n" +
                     "    <CU>101</CU>\n" +
                     "    <creator>user</creator>\n" +
-                    "    <createtime>2019-04-15 00:00:00</createtime>\n" +
+                    "    <createtime>2019-05-05 00:00:00</createtime>\n" +
+                    "    <lastupdateuser />\n" +
                     "    <lastupdatetime />\n" +
                     "    <number />\n" +
-                    "    <bizdate>2019-04-15 00:00:00</bizdate>\n" +
+                    "    <bizdate>2019-05-06 11:16:03</bizdate>\n" +
                     "    <handler />\n" +
-                    "    <description>0</description>\n" +
-                    "    <haseffected />\n" +
+                    "    <description />\n" +
+                    "    <haseffected>0</haseffected>\n" +
                     "    <auditor />\n" +
                     "    <sourcebillid />\n" +
                     "    <sourcefunction />\n" +
@@ -96,9 +97,10 @@ public class Client {
                     "    <exchangerate>1</exchangerate>\n" +
                     "    <isexchanged />\n" +
                     "    <lastexhangerate />\n" +
-                    "    <settlementtype>银行</settlementtype>\n" +
+                    "    <settlementtype>汇款</settlementtype>\n" +
                     "    <settlementnumber />\n" +
                     "    <oppaccount />\n" +
+                    "    <fpitem />\n" +
                     "    <iscommitsettle />\n" +
                     "    <settlebiztype />\n" +
                     "    <auditdate />\n" +
@@ -106,7 +108,7 @@ public class Client {
                     "    <accountant />\n" +
                     "    <isinitializebill />\n" +
                     "    <settlementstatus />\n" +
-                    "    <fundtype>101</fundtype>\n" +
+                    "    <fundtype>102</fundtype>\n" +
                     "    <isimport />\n" +
                     "    <amount />\n" +
                     "    <localamt />\n" +
@@ -122,28 +124,28 @@ public class Client {
                     "    <feetype />\n" +
                     "    <project />\n" +
                     "    <projectmanager />\n" +
-                    "    <rectype>999</rectype>\n" +
+                    "    <paytype>999</paytype>\n" +
                     "    <actrecamt />\n" +
                     "    <actrecamtvc />\n" +
                     "    <actreclocamt />\n" +
                     "    <actreclocamtvc />\n" +
-                    "    <payeeaccountbank>5003978800018</payeeaccountbank>\n" +
-                    "    <payeebank />\n" +
-                    "    <payeeaccount>1002.01.01</payeeaccount>\n" +
-                    "    <payertype />\n" +
-                    "    <payernumber />\n" +
                     "    <payerbank />\n" +
-                    "    <payeraccountbank />\n" +
-                    "    <isrelatereceipt />\n" +
-                    "    <receipt />\n" +
+                    "    <payeraccountbank>5003978800018</payeraccountbank>\n" +
+                    "    <payeraccount></payeraccount>\n" +
+                    "    <payeetype />\n" +
+                    "    <payeename />\n" +
+                    "    <payeenumber />\n" +
+                    "    <bankacctname />\n" +
+                    "    <payeebank />\n" +
+                    "    <payeeaccountbank />\n" +
                     "    <oppinneracct />\n" +
                     "  </billHead>\n" +
                     "  <billEntries>\n" +
                     "    <entry>\n" +
                     "      <seq>1</seq>\n" +
-                    "      <amount>5000.0000</amount>\n" +
+                    "      <amount>-5000.0000</amount>\n" +
                     "      <amountvc />\n" +
-                    "      <localamt>5000.0000</localamt>\n" +
+                    "      <localamt>-5000.0000</localamt>\n" +
                     "      <localamtvc />\n" +
                     "      <unvcamount />\n" +
                     "      <unvclocamount />\n" +
@@ -152,9 +154,9 @@ public class Client {
                     "      <rebateamtvc />\n" +
                     "      <rebatelocamt />\n" +
                     "      <rebatelocamtvc />\n" +
-                    "      <actualamt>5000.0000</actualamt>\n" +
+                    "      <actualamt>-5000.0000</actualamt>\n" +
                     "      <actualamtvc />\n" +
-                    "      <actuallocamt>5000.0000</actuallocamt>\n" +
+                    "      <actuallocamt>-5000.0000</actuallocamt>\n" +
                     "      <actuallocamtvc />\n" +
                     "      <remark />\n" +
                     "      <lockamt />\n" +
@@ -171,11 +173,8 @@ public class Client {
                     "      <corebillentryid />\n" +
                     "      <corebillnumber />\n" +
                     "      <corebillentryseq />\n" +
-                    "      <bizbillnumber />\n" +
-                    "      <customerbillnum />\n" +
                     "      <tracknumbet />\n" +
                     "      <currency />\n" +
-                    "      <receiptnumber />\n" +
                     "      <oppaccount>2241.02</oppaccount>\n" +
                     "      <asstitems>\n" +
                     "        <assttype>客户</assttype>\n" +
@@ -184,7 +183,7 @@ public class Client {
                     "      </asstitems>\n" +
                     "    </entry>\n" +
                     "  </billEntries>\n" +
-                    "</ReceivingBill>\n"}).toString();
+                    "</PayBill>"}).toString();
             System.out.println(invoke);
 
         } catch (Exception e) {

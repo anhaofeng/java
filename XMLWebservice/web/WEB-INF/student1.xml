@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="gb2312"?>
+<student-info>
+    <student id="95001">
+        <name>王明</name>
+        <age>24</age>
+        <address>青岛</address>
+    </student>
+    <student id="95002">
+        <name>李刚</name>
+        <age>24</age>
+        <address>上海</address>
+    </student>
+</student-info>
+
+
+
