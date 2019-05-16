@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope">
+    <SOAP-ENV:Header>
+        <SOAP-SEC:Encryption xmlns:SOAP-SEC="http://schemas.xmlsoap.org/soap/security/" SOAP-ENV:actor="http://some URL" SOAP-ENV:mustUnderstand="1">
+            <SOAP-SEC:EncryptedData>
+                <SOAP-SEC:EncryptedDataReference URI="#encrypted-element" />
+            </SOAP-SEC:EncryptedData>
+            <xenc:EncryptedKey xmlns:xenc="http://www.w3.org/2001/04/xmlenc#"
+                               Id="myKey"
+                               CarriedKeyName="Symmetric Key"
+                               Recipient="Bill Allen">
+                <xenc:EncryptionMethod
+                        Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-1_5" />
+                <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+                    <ds:KeyName>Bill Allen's RSA Key</ds:KeyName>
+                </ds:KeyInfo>
+                <xenc:CipherData>
+                    <xenc:CipherValue>ENCRYPTED KEY</xenc:CipherValue>
+                </xenc:CipherData>
+                <xenc:ReferenceList>
+                    <xenc:DataReference URI="#encrypted-element" />
+                </xenc:ReferenceList>
+            </xenc:EncryptedKey>
+        </SOAP-SEC:Encryption>
+    </SOAP-ENV:Header>
+    <SOAP-ENV:Body>
+        ......
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
