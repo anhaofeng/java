@@ -1,4 +1,4 @@
-package servlet;
+package servletStudy;
 
 import javax.servlet.ServletContext;
 import java.util.Enumeration;

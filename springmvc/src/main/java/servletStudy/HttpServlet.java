@@ -1,4 +1,4 @@
-package servlet;
+package servletStudy;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
