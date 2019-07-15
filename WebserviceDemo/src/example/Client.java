@@ -75,7 +75,7 @@ public class Client {
             WSContext wscontext = (WSContext) rpcCall.invoke(args);
             System.out.println(wscontext.getSessionId());
             String invoke = rpcCall2.invoke(new Object[]{"<?xml version='1.0' encoding='utf-8'?>\n" +
-                    "<PayBill>\n" +
+                     "<PayBill>\n" +
                     "  <billHead>\n" +
                     "    <CU>101</CU>\n" +
                     "    <creator>user</creator>\n" +
