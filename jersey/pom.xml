@@ -5,8 +5,12 @@
 
 	<groupId>com.restful</groupId>
 	<artifactId>jersey</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>jersey</name>
+    <packaging>pom</packaging>
+    <version>0.0.1-SNAPSHOT</version>
+    <modules>
+        <module>restfulApi</module>
+    </modules>
+    <name>jersey</name>
 	<description>Demo project for Spring Boot</description>
 
 
