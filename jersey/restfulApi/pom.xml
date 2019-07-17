@@ -79,7 +79,7 @@
             <version>${jersey.version}</version>
         </dependency>
 
-        <!-- unit test -->
+        <!-- unit lamda -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
