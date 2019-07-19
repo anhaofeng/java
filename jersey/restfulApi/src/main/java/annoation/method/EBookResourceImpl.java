@@ -45,4 +45,6 @@ public class EBookResourceImpl implements BookResource {
         LOGGER.debug("MOVE method");
         return true;
     }
+
+
 }

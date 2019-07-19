@@ -28,4 +28,5 @@ public interface BookResource {
 
     @MOVE
     public boolean moveBooks(Books books);
+
 }
